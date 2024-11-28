@@ -4,7 +4,7 @@ import Task from "../models/Task.js";
 const router = express.Router();
 
 // lesen
-// /api/tasks?sortField=title&sortDirection=asc
+// Beispielanfrage: /api/tasks?sortField=title&sortDirection=asc&prio=low
 router.get("/", async (req, res, next) => {
   try {
      //default Wert
