@@ -14,8 +14,8 @@ router.get("/", async (req, res, next) => {
       sortDirection = "desc";
     }
 
-    //default Wert
-    let sortField = "title";
+    // Sortierung
+    let sortField = "title"; //default Wert
     // falls gesetzt als Query Parameter: passe an
     if (req.query.sortField === "status") {
       sortField = "status";
@@ -23,7 +23,14 @@ router.get("/", async (req, res, next) => {
       sortField = "priority";
     }
 
-    const data = await Task.find().sort({[sortField]:sortDirection});
+    // Filterung - setzen wir in find() ein
+    let filter = {}; // default Filterobjekt ist leer -> dann wird nicht gefiltert
+    // passe an falls query parameter gesetzt und akzeptablen Wert enthält
+    if (req.query.prio && ["low", "medium", "high"].includes(req.query.prio)) {
+      filter = {priority: req.query.prio};
+    }
+
+    const data = await Task.find(filter).sort({[sortField]:sortDirection});
     res.status(200).json(data);
   } catch(error) {
     next(error);

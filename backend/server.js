@@ -2,6 +2,7 @@ import express from "express";
 import taskRouter from "./routes/tasks.js";
 import { connect } from "./db.js";
 import mongoose from "mongoose";
+import cors from "cors";
 
 await connect();
 
@@ -9,6 +10,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/tasks", taskRouter);
 
